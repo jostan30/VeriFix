@@ -1,18 +1,16 @@
 "use client";
 
-import Link from "next/link"; // ✅ Next.js Link
-import Image from "next/image"; // ✅ Optional Next.js Image
+import Image from "next/image"; 
 import { Button } from "@/components/ui/button";
 import { FeatureCard } from "@/components/civic/FeatureCard";
-import { Header } from "@/components/layout/Header";
 import { MapPin, Search, Users } from "lucide-react";
 import heroImage from "@/app/assets/hero-city.jpg";
+import { useRouter } from "next/navigation";
 
 export default function Landing() { 
+  const router  =useRouter();
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
@@ -30,11 +28,11 @@ export default function Landing() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" asChild className="civic-glow text-lg px-8 py-6">
-                  <Link href="/report">Report Issue</Link>
+                <Button onClick={()=>router.push('/report')} size="lg"  className="civic-glow text-lg px-8 py-6">
+                  Report Issue
                 </Button>
-                <Button variant="outline" size="lg" asChild className="text-lg px-8 py-6">
-                  <Link href="/issues">View Issues</Link>
+                <Button onClick={()=>router.push('/issues')} variant="outline" size="lg"  className="text-lg px-8 py-6">
+                  View Issues
                 </Button>
               </div>
 
@@ -110,62 +108,13 @@ export default function Landing() {
             <p className="text-xl text-muted-foreground">
               Join thousands of citizens working together to improve their communities.
             </p>
-            <Button size="lg" asChild className="civic-glow text-lg px-8 py-6">
-              <Link href="/report">Start Reporting Issues</Link>
+            <Button onClick={()=> router.push('/report')} size="lg"  className="civic-glow text-lg px-8 py-6">
+                Start Reporting Issues
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-card border-t py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-lg">C</span>
-                </div>
-                <span className="font-bold text-xl">CivicVerify</span>
-              </div>
-              <p className="text-muted-foreground">
-                Building better communities through transparent civic engagement.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold">Platform</h3>
-              <div className="space-y-2">
-                <Link href="/issues" className="block text-muted-foreground hover:text-primary">Browse Issues</Link>
-                <Link href="/report" className="block text-muted-foreground hover:text-primary">Report Issue</Link>
-                <Link href="/dashboard" className="block text-muted-foreground hover:text-primary">Dashboard</Link>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold">Support</h3>
-              <div className="space-y-2">
-                <Link href="/help" className="block text-muted-foreground hover:text-primary">Help Center</Link>
-                <Link href="/contact" className="block text-muted-foreground hover:text-primary">Contact</Link>
-                <Link href="/privacy" className="block text-muted-foreground hover:text-primary">Privacy Policy</Link>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold">Partners</h3>
-              <div className="space-y-2">
-                <Link href="/ngos" className="block text-muted-foreground hover:text-primary">NGO Partners</Link>
-                <Link href="/government" className="block text-muted-foreground hover:text-primary">Government</Link>
-                <Link href="/api" className="block text-muted-foreground hover:text-primary">API Access</Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 CivicVerify. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

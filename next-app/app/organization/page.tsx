@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -8,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Upload, Eye, Filter } from "lucide-react";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { Header } from "@/components/layout/Header";
+
 
 const OrganizationPanel = () => {
   const [selectedRegion, setSelectedRegion] = useState("all");
@@ -54,8 +53,7 @@ const OrganizationPanel = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-      
+
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">NGO and Authority Panel</h1>

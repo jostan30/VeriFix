@@ -1,12 +1,10 @@
-import { Header } from "@/components/layout/Header";
+
 import { Sidebar } from "@/components/layout/Sidebar";
-import { IssueCard } from "@/components/civic/IssueCard";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { Search, Filter, MapPin, Eye, CheckCircle } from "lucide-react";
+import { CheckCircle, Eye } from "lucide-react";
 
 const mockIssues = [
   {
@@ -92,7 +90,6 @@ const mockIssues = [
 export default function IssuesDashboard() {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
       
       <div className="flex">
         <Sidebar />
