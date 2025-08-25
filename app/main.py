@@ -23,10 +23,9 @@ app.add_middleware(
 # Initialize models
 dbscan_model = DBSCANModel()
 text_categorizer = TextCategorizer()
-issue_categorizer = TextCategorizer()  # Same as text categorizer
+issue_categorizer = TextCategorizer()
 image_classifier = ImageClassifier()
 
-# Pydantic models for request/response
 class ClusterRequest(BaseModel):
     data: List[List[float]]
     eps: Optional[float] = 0.5
@@ -39,7 +38,7 @@ class PredictionResponse(BaseModel):
     predictions: List[int]
     probabilities: Optional[List[List[float]]] = None
 
-# Routes
+#Routes
 @app.get("/")
 async def root():
     return {"message": "Verifix ML Server API is running", "version": "1.0.0"}
@@ -63,8 +62,6 @@ async def cluster_data(request: ClusterRequest):
 @app.post("/categorize/text", response_model=PredictionResponse)
 async def categorize_text(request: TextRequest):
     try:
-        # For demo purposes, we'll use a simple model
-        # In production, you'd load a pre-trained model
         predictions = [0] * len(request.texts)  # Placeholder
         probabilities = [[0.5, 0.5]] * len(request.texts)  # Placeholder
         
@@ -77,7 +74,7 @@ async def categorize_text(request: TextRequest):
 
 @app.post("/categorize/issues", response_model=PredictionResponse)
 async def categorize_issues(request: TextRequest):
-    # Same implementation as text categorization
+    # Same as text categorization
     return await categorize_text(request)
 
 @app.post("/classify/image")
@@ -94,8 +91,6 @@ async def classify_image(file: UploadFile = File(...)):
         
         # Validate and classify
         result = image_classifier.validate_image(file_path)
-        
-        # Clean up
         os.remove(file_path)
         
         return result
