@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+pandas
+numpy
+scikit-learn
+joblib
+pillow
+opencv-python-headless
+torch
+torchvision
+torchaudio
+python-json-logger
+requests
+aiofiles

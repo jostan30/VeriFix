@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+ml-env/
+venv/
+*.log
+
+# IDE & OS
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Data files
+data/uploads/*
+data/models/*.pkl
