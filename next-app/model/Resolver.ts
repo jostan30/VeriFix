@@ -18,13 +18,33 @@ const resolverSchema = new mongoose.Schema({
         },
         required: true
     },
+    role: {
+        type: String,
+        enum: ['authority', 'ngo', 'charity'],
+        required: true
+    },
     sector: {
         type: String,
         required: true
     },
+    coverage: [{
+        type: { 
+            type: String, 
+            enum: ["Polygon", "Point"], 
+            default: "Point" 
+        },
+        coordinates: [[Number]]
+    }],
     location: {
-        type: String,
-        required: true
+        type: { 
+            type: String, 
+            enum: ["Point"], 
+            default: "Point" 
+        },
+        coordinates: { 
+            type: [Number], 
+            required: true 
+        }
     }
 }, { timestamps: true });
 

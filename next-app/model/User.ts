@@ -5,6 +5,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    authProvider: { 
+        type: String, 
+        enum: ['local', 'google', 'facebook'], 
+        default: 'local' 
+    },
+    passwordHash: { 
+        type: String 
+    },
     email: {
         type: String,
         unique: true
@@ -23,6 +31,9 @@ const userSchema = new mongoose.Schema({
         default: 0.0,
     }
 });
+
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ phoneNumber: 1 }, { unique: true });
 
 const User = mongoose.model('user', userSchema);
 export default User;

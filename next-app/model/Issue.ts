@@ -1,9 +1,24 @@
 import mongoose from "mongoose";
+const commentSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
+    content: {
+        type: String,
+        required: true
+    }
+}, { timestamps: true });
 
 const issueSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
         required: true
+    },
+    cluster: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'cluster'
     },
     image: {
         type: String,
@@ -16,12 +31,24 @@ const issueSchema = new mongoose.Schema({
         type: String
     },
     location: {
-        type: String,
-        required: true
+        type: { 
+            type: String, 
+            enum: ["Point"], 
+            default: "Point" 
+        },
+        coordinates: { 
+            type: [Number], 
+            required: true 
+        }
+    },
+    assignedResolver: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "resolver" 
     },
     status: { 
         type: String, 
-        default: "pending"
+        enum: ["pending", "in_progress", "resolved", "rejected"], 
+        default: "pending" 
     },
     reportedAt: { 
         type: Date, 
@@ -30,8 +57,18 @@ const issueSchema = new mongoose.Schema({
     updatedAt: { 
         type: Date, 
         default: Date.now() 
+    },
+    supporters: [{ 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "user" 
+    }],
+    comments: {
+        type: [commentSchema]
     }
 }, { timestamps: true });
+
+issueSchema.index({ location: "2dsphere" });
+issueSchema.index({ status: 1 });
 
 const Issue = mongoose.model('issue', issueSchema);
 export default Issue;
