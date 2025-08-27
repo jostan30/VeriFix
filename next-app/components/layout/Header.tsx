@@ -1,89 +1,79 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
-export function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function Header({ darkMode }: { darkMode: boolean }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="fixed top-0 w-full z-40 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-b border-gray-200 dark:border-slate-700">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">C</span>
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <motion.div 
+            className="flex items-center space-x-3"
+            whileHover={{ scale: 1.05 }}
+          >
+            <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-blue-600 rounded-xl flex items-center justify-center">
+              <span className="text-white font-bold text-xl">C</span>
             </div>
-            <span className="font-bold text-xl">CivicVerify</span>
-          </Link>
+            <span className="font-bold text-2xl bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+              VeriFix
+            </span>
+          </motion.div>
 
-          <nav className="hidden md:flex items-center space-x-6">
-            <Link href="/issues" className="text-sm font-medium hover:text-primary transition-colors">
-              Browse Issues
-            </Link>
-            <Link href="/report" className="text-sm font-medium hover:text-primary transition-colors">
-              Report Issue
-            </Link>
-            <Link href="/community" className="text-sm font-medium hover:text-primary transition-colors">
-              Community
-            </Link>
-            <Link href="/organization" className="text-sm font-medium hover:text-primary transition-colors">
-              NGO/Auth Panel
-            </Link>
-            <Link href="/dashboard" className="text-sm font-medium hover:text-primary transition-colors">
-              Dashboard
-            </Link>
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center space-x-8">
+            {['Home', 'ReportIssues', 'BrowseProgress', 'OrganizationDashboard',"Community"].map((item, index) => (
+              <motion.a
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                className="text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 font-medium transition-colors duration-300"
+                whileHover={{ y: -2 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                {item}
+              </motion.a>
+            ))}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-gradient-to-r from-teal-600 to-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transition-all duration-300"
+            >
+              Get Started
+            </motion.button>
           </nav>
 
-          <div className="hidden md:flex items-center space-x-4">
-            <Button variant="outline" asChild>
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button asChild className="civic-glow">
-              <Link href="/report">Report Issue</Link>
-            </Button>
-          </div>
-
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setIsOpen(!isOpen)}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col space-y-4">
-              <Link href="/issues" className="text-sm font-medium hover:text-primary transition-colors">
-                Browse Issues
-              </Link>
-              <Link href="/report" className="text-sm font-medium hover:text-primary transition-colors">
-                Report Issue
-              </Link>
-              <Link href="/community" className="text-sm font-medium hover:text-primary transition-colors">
-                Community
-              </Link>
-              <Link href="/organization" className="text-sm font-medium hover:text-primary transition-colors">
-                NGO/Auth Panel
-              </Link>
-              <Link href="/dashboard" className="text-sm font-medium hover:text-primary transition-colors">
-                Dashboard
-              </Link>
-              <div className="flex flex-col space-y-2 pt-4">
-                <Button variant="outline" asChild>
-                  <Link href="/login">Sign In</Link>
-                </Button>
-                <Button asChild className="civic-glow">
-                  <Link href="/report">Report Issue</Link>
-                </Button>
-              </div>
-            </nav>
-          </div>
+        {/* Mobile Nav */}
+        {isOpen && (
+          <motion.nav
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            className="md:hidden border-t border-gray-200 dark:border-slate-700 py-4"
+          >
+            {['Home', 'ReportIssues', 'BrowseProgress', 'OrganizationDashboard','Community'].map((item) => (
+              <a
+                key={item}
+                href={`/${item.toLowerCase()}`}
+                className="block py-2 text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400"
+              >
+                {item}
+              </a>
+            ))}
+          </motion.nav>
         )}
       </div>
     </header>
