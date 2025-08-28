@@ -4,6 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from '@clerk/nextjs'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,9 +57,17 @@ export function Header() {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button onClick={() => navigate("/login")} variant="outline">
-              Sign In
-            </Button>
+            <SignedOut>
+              <SignInButton />
+              <SignUpButton>
+                <Button variant="outline" className="cursor-pointer" >
+                  Sign Up
+                </Button>
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
             <Button onClick={() => navigate("/report")} className="civic-glow">
               Report Issue
             </Button>
