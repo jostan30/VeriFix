@@ -1,4 +1,4 @@
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document ,Schema ,Model} from 'mongoose';
 
 export interface IUser extends Document {
   name: string;
@@ -14,7 +14,7 @@ export interface IUser extends Document {
   last2FAVerifiedAt?: Date; // 🔹 new field for timestamp
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema<IUser>({
     name: {
         type: String,
         required: true
@@ -62,5 +62,6 @@ const userSchema = new mongoose.Schema({
 // userSchema.index({ email: 1 }, { unique: true });
 // userSchema.index({ phoneNumber: 1 }, { unique: true });
 
-const User = mongoose.models.user || mongoose.model('user', userSchema);
+const User :Model<IUser>= mongoose.models.user || mongoose.model('user', userSchema);
 export default User;
+ 

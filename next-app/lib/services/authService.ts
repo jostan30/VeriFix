@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import User, { IUser } from "@/lib/models/User";
 import { generateOTP, sendOTP } from "../utils/otpHelper";
 import { dbConnect } from "../db/dbConnection";
+import { MongoServerError } from "mongodb";
 
 // Custom error types
 class AuthError extends Error {
@@ -23,7 +24,7 @@ interface SignupDTO {
 
 interface VerifyOTPDTO {
   phoneNumber?: string;
-  email?: string;
+  email: string;
   otp: string;
 }
 
@@ -33,14 +34,16 @@ export class AuthService {
     try {
       await dbConnect();
 
-      const existing = await User.findOne<IUser>({ $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }] });
+      const existing = await User.findOne({
+  $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }],
+}).lean<IUser>();
       if (existing) throw new AuthError("User with this email or phone number already exists", 409);
 
       const passwordHash = await bcrypt.hash(data.password, 10);
       const otp = generateOTP();
       const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 min
 
-      const user = await User.create<IUser>({
+      const user = await User.create({
         name: data.name,
         email: data.email,
         phoneNumber: data.phoneNumber,
@@ -53,19 +56,26 @@ export class AuthService {
         rating: 0
       });
 
-      await sendOTP(data.otpMethod,data.email, otp); // email or SMS later
+      await sendOTP(data.otpMethod, data.email, otp); // email or SMS later
 
       return { message: "Signup successful. OTP sent.", userId: user._id };
-    } catch (error: any) {
+    } catch (error: unknown) {
+      if (!(error instanceof Error)) {
+        console.error("Non-error thrown:", error);
+        throw new AuthError("An unknown error occurred", 500);
+      }
       // Detect MongoDB connection errors
       if (error.name === "MongooseServerSelectionError") {
         throw new AuthError("Database connection failed. Please check your MongoDB URI.", 500);
       }
 
       // Detect duplicate key errors
-      if (error.code === 11000) {
-        throw new AuthError("Duplicate entry detected. Email or phone already exists.", 409);
-      }
+      if (error instanceof MongoServerError && error.code === 11000) {
+    throw new AuthError(
+      "Duplicate entry detected. Email or phone already exists.",
+      409
+    );
+  }
 
       // Custom errors
       if (error instanceof AuthError) {
@@ -83,7 +93,7 @@ export class AuthService {
     try {
       await dbConnect();
 
-      const user = await User.findOne<IUser>({ $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }] });
+      const user = await User.findOne({ $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }] });
       if (!user) throw new AuthError("User not found", 404);
 
       if (!user.otp || !user.otpExpiry) throw new AuthError("OTP has not been generated", 400);
@@ -97,7 +107,11 @@ export class AuthService {
       await user.save();
 
       return { message: "OTP verified successfully" };
-    } catch (error: any) {
+    } catch (error: unknown) { 
+      if (!(error instanceof Error)) {
+        console.error("Non-error thrown:", error);
+        throw new AuthError("An unknown error occurred", 500);
+      }
       if (error instanceof AuthError) {
         throw error;
       }

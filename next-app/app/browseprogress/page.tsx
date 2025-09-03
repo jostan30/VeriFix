@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { Eye, CheckCircle, MapPin, BarChart2, Activity, Bell, Menu, X, Search, Filter, TrendingUp, Users, Clock } from "lucide-react";
+import { Eye, CheckCircle, MapPin, Activity,  Search, Filter, TrendingUp, Users, Clock, Menu } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import Header from "@/components/layout/Header";
 
@@ -56,34 +56,33 @@ const mockIssues = [
 
 export default function BrowseProgress() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const [filtersExpanded, setFiltersExpanded] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <Header darkMode={false} />
       
-    <Header darkMode={false} />
-
-      {/* HERO HEADER */}
-      <div className="relative pt-24 pb-16 overflow-hidden">
-        {/* Background Elements */}
+      {/* HERO HEADER - Mobile Optimized */}
+      <div className="relative pt-20 sm:pt-24 pb-8 sm:pb-16 overflow-hidden">
+        {/* Background Elements - Adjusted for mobile */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-violet-400/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute top-40 right-20 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute bottom-20 left-1/2 w-80 h-80 bg-purple-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
+          <div className="absolute top-10 sm:top-20 left-4 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-violet-400/20 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute top-20 sm:top-40 right-4 sm:right-20 w-64 sm:w-96 h-64 sm:h-96 bg-blue-400/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute bottom-10 sm:bottom-20 left-1/2 w-48 sm:w-80 h-48 sm:h-80 bg-purple-400/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
         </div>
         
-        <div className="relative container mx-auto px-6 text-center">
+        <div className="relative container mx-auto px-4 sm:px-6 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-violet-100 to-purple-100 rounded-full text-violet-700 font-semibold text-sm mb-6 shadow-inner">
-              <TrendingUp className="w-4 h-4" />
+            <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-violet-100 to-purple-100 rounded-full text-violet-700 font-semibold text-xs sm:text-sm mb-4 sm:mb-6 shadow-inner">
+              <TrendingUp className="w-3 sm:w-4 h-3 sm:h-4" />
               Live Community Dashboard
             </div>
             
-            <h1 className="text-6xl lg:text-7xl font-black mb-6 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 bg-clip-text text-transparent leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 bg-clip-text text-transparent leading-tight px-2">
               Browse & Track
               <br />
               <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 bg-clip-text text-transparent">
@@ -91,21 +90,21 @@ export default function BrowseProgress() {
               </span>
             </h1>
             
-            <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Explore real-time community reports, verify issues, and monitor progress in your neighborhood with our advanced tracking system
+            <p className="text-sm sm:text-lg lg:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed px-4">
+              Explore real-time community reports, verify issues, and monitor progress in your neighborhood
             </p>
           </motion.div>
         </div>
       </div>
 
       {/* PAGE CONTENT */}
-      <div className="container mx-auto px-6 space-y-12 pb-20">
-        {/* Quick Stats */}
+      <div className="container mx-auto px-4 sm:px-6 space-y-8 sm:space-y-12 pb-12 sm:pb-20">
+        {/* Quick Stats - Mobile Responsive Grid */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12"
+          className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12"
         >
           {[
             { icon: Activity, value: "147", label: "Active Issues", color: "from-blue-500 to-cyan-500", bg: "bg-blue-50" },
@@ -118,59 +117,73 @@ export default function BrowseProgress() {
               whileHover={{ scale: 1.02, y: -4 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <Card className={`${stat.bg} border-0 shadow-xl shadow-black/5 backdrop-blur-sm relative overflow-hidden`}>
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br opacity-10 rounded-full -translate-y-16 translate-x-16"></div>
-                <CardContent className="p-8 relative">
-                  <div className={`w-14 h-14 bg-gradient-to-br ${stat.color} rounded-2xl flex items-center justify-center mb-4 shadow-lg`}>
-                    <stat.icon className="w-7 h-7 text-white" />
+              <Card className={`${stat.bg} border-0 shadow-lg sm:shadow-xl shadow-black/5 backdrop-blur-sm relative overflow-hidden`}>
+                <div className="absolute top-0 right-0 w-16 sm:w-32 h-16 sm:h-32 bg-gradient-to-br opacity-10 rounded-full -translate-y-8 sm:-translate-y-16 translate-x-8 sm:translate-x-16"></div>
+                <CardContent className="p-4 sm:p-6 lg:p-8 relative">
+                  <div className={`w-8 sm:w-12 lg:w-14 h-8 sm:h-12 lg:h-14 bg-gradient-to-br ${stat.color} rounded-xl sm:rounded-2xl flex items-center justify-center mb-2 sm:mb-4 shadow-lg`}>
+                    <stat.icon className="w-4 sm:w-6 lg:w-7 h-4 sm:h-6 lg:h-7 text-white" />
                   </div>
-                  <div className="text-4xl font-black text-slate-800 mb-1">{stat.value}</div>
-                  <p className="text-slate-600 font-semibold">{stat.label}</p>
+                  <div className="text-xl sm:text-3xl lg:text-4xl font-black text-slate-800 mb-1">{stat.value}</div>
+                  <p className="text-xs sm:text-sm lg:text-base text-slate-600 font-semibold leading-tight">{stat.label}</p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Advanced Filters */}
+        {/* Advanced Filters - Mobile Collapsible */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Card className="bg-white/70 backdrop-blur-xl border-0 shadow-2xl shadow-black/10 rounded-3xl overflow-hidden">
-            <CardHeader className="bg-gradient-to-r from-violet-50 to-purple-50 border-b border-white/50">
-              <CardTitle className="text-2xl font-bold flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-r from-violet-500 to-purple-500 rounded-xl">
-                  <Filter className="h-6 w-6 text-white" />
+          <Card className="bg-white/70 backdrop-blur-xl border-0 shadow-xl sm:shadow-2xl shadow-black/10 rounded-2xl sm:rounded-3xl overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-violet-50 to-purple-50 border-b border-white/50 p-4 sm:p-6">
+              <CardTitle className="text-lg sm:text-2xl font-bold flex items-center justify-between">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-1.5 sm:p-2 bg-gradient-to-r from-violet-500 to-purple-500 rounded-lg sm:rounded-xl">
+                    <Filter className="h-4 sm:h-6 w-4 sm:w-6 text-white" />
+                  </div>
+                  <span className="hidden sm:inline">Smart Filtering System</span>
+                  <span className="sm:hidden">Filters</span>
                 </div>
-                Smart Filtering System
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="sm:hidden"
+                  onClick={() => setFiltersExpanded(!filtersExpanded)}
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-8">
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+            <CardContent className={`p-4 sm:p-8 ${!filtersExpanded ? 'hidden sm:block' : ''}`}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
                 {/* Search */}
-                <div className="lg:col-span-2 relative">
-                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+                <div className="sm:col-span-2 lg:col-span-2 relative">
+                  <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 sm:w-5 h-4 sm:h-5" />
                   <input 
                     type="text" 
-                    placeholder="Search issues, locations..." 
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border-0 rounded-2xl focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all font-medium"
+                    placeholder="Search issues..." 
+                    className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 bg-slate-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-violet-500 focus:bg-white transition-all font-medium text-sm sm:text-base"
                   />
                 </div>
                 
-                {['Category', 'Location', 'Status'].map((filter) => (
-                  <Select key={filter}>
-                    <SelectTrigger className="h-14 bg-slate-50 border-0 rounded-2xl hover:bg-white focus:ring-2 focus:ring-violet-500 transition-all">
-                      <SelectValue placeholder={filter} />
-                    </SelectTrigger>
-                    <SelectContent className="rounded-xl border-0 shadow-2xl">
-                      <SelectItem value="all" className="rounded-lg">All {filter}s</SelectItem>
-                    </SelectContent>
-                  </Select>
-                ))}
+                {/* Filter Selects - Stack on mobile */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 sm:gap-6 lg:contents">
+                  {['Category', 'Location', 'Status'].map((filter) => (
+                    <Select key={filter}>
+                      <SelectTrigger className="h-12 sm:h-14 bg-slate-50 border-0 rounded-xl sm:rounded-2xl hover:bg-white focus:ring-2 focus:ring-violet-500 transition-all text-sm sm:text-base">
+                        <SelectValue placeholder={filter} />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-xl border-0 shadow-2xl">
+                        <SelectItem value="all" className="rounded-lg">All {filter}s</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  ))}
+                </div>
 
-                <Button className="h-14 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+                <Button className="h-12 sm:h-14 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-sm sm:text-base">
                   Apply Filters
                 </Button>
               </div>
@@ -178,89 +191,90 @@ export default function BrowseProgress() {
           </Card>
         </motion.div>
 
-        {/* Interactive Map */}
+        {/* Interactive Map - Mobile Optimized */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <Card className="bg-white/70 backdrop-blur-xl border-0 shadow-2xl shadow-black/10 rounded-3xl overflow-hidden">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl">
-                  <MapPin className="h-6 w-6 text-white" />
+          <Card className="bg-white/70 backdrop-blur-xl border-0 shadow-xl sm:shadow-2xl shadow-black/10 rounded-2xl sm:rounded-3xl overflow-hidden">
+            <CardHeader className="p-4 sm:p-6">
+              <CardTitle className="text-lg sm:text-2xl font-bold flex items-center gap-2 sm:gap-3">
+                <div className="p-1.5 sm:p-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg sm:rounded-xl">
+                  <MapPin className="h-4 sm:h-6 w-4 sm:w-6 text-white" />
                 </div>
                 Live Issue Map
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <div className="h-96 relative bg-gradient-to-br from-blue-500 via-purple-500 to-violet-600 flex items-center justify-center overflow-hidden">
+              <div className="h-64 sm:h-80 lg:h-96 relative bg-gradient-to-br from-blue-500 via-purple-500 to-violet-600 flex items-center justify-center overflow-hidden">
                 {/* Animated background elements */}
                 <div className="absolute inset-0">
-                  {[...Array(6)].map((_, i) => (
+                  {[...Array(4)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className="absolute w-4 h-4 bg-white/30 rounded-full"
+                      className="absolute w-3 sm:w-4 h-3 sm:h-4 bg-white/30 rounded-full"
                       animate={{
-                        x: [0, 100, 200, 100, 0],
-                        y: [0, 50, 100, 150, 0],
+                        x: [0, 50, 100, 50, 0],
+                        y: [0, 25, 50, 75, 0],
                         scale: [1, 1.2, 0.8, 1.1, 1],
                       }}
                       transition={{
-                        duration: 8 + i,
+                        duration: 6 + i,
                         repeat: Infinity,
                         ease: "easeInOut"
                       }}
                       style={{
-                        left: `${20 + i * 12}%`,
-                        top: `${30 + i * 8}%`
+                        left: `${20 + i * 15}%`,
+                        top: `${30 + i * 10}%`
                       }}
                     />
                   ))}
                 </div>
-                <div className="relative z-10 text-center text-white">
+                <div className="relative z-10 text-center text-white px-4">
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="w-20 h-20 border-4 border-white/30 border-t-white rounded-full mx-auto mb-4"
+                    className="w-12 sm:w-16 lg:w-20 h-12 sm:h-16 lg:h-20 border-2 sm:border-4 border-white/30 border-t-white rounded-full mx-auto mb-3 sm:mb-4"
                   ></motion.div>
-                  <h3 className="text-2xl font-bold mb-2">Interactive Map Loading...</h3>
-                  <p className="text-white/80">Real-time issue tracking across your community</p>
+                  <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2">Interactive Map Loading...</h3>
+                  <p className="text-white/80 text-sm sm:text-base">Real-time issue tracking</p>
                 </div>
               </div>
             </CardContent>
           </Card>
         </motion.div>
 
-        {/* Issues Grid */}
+        {/* Issues Grid - Mobile Responsive */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-4xl font-black text-slate-800">Community Reports</h2>
-            <div className="flex gap-3">
-              <Button variant="outline" className="rounded-xl border-2 hover:border-violet-500 hover:text-violet-600">
-                Sort by Priority
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-800">Community Reports</h2>
+            <div className="flex gap-2 sm:gap-3">
+              <Button variant="outline" className="rounded-lg sm:rounded-xl border-2 hover:border-violet-500 hover:text-violet-600 text-xs sm:text-sm px-3 sm:px-4">
+                <span className="hidden sm:inline">Sort by Priority</span>
+                <span className="sm:hidden">Priority</span>
               </Button>
-              <Button variant="outline" className="rounded-xl border-2 hover:border-violet-500 hover:text-violet-600">
+              <Button variant="outline" className="rounded-lg sm:rounded-xl border-2 hover:border-violet-500 hover:text-violet-600 text-xs sm:text-sm px-3 sm:px-4">
                 View All
               </Button>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {mockIssues.map((issue, i) => (
               <motion.div
                 key={issue.id}
                 initial={{ opacity: 0, y: 60 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.2, duration: 0.6, ease: "easeOut" }}
-                whileHover={{ y: -8, scale: 1.02 }}
+                whileHover={{ y: -4, scale: 1.02 }}
                 className="group"
               >
-                <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-xl shadow-black/10 rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500">
+                <Card className="bg-white/80 backdrop-blur-xl border-0 shadow-lg sm:shadow-xl shadow-black/10 rounded-2xl sm:rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500">
                   {/* Image */}
                   <div className="relative aspect-video overflow-hidden">
                     <motion.img
@@ -270,30 +284,30 @@ export default function BrowseProgress() {
                       whileHover={{ scale: 1.1 }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-                    <div className="absolute top-4 right-4">
-                      <StatusBadge status={issue.status} className="backdrop-blur-md bg-white/90 shadow-lg">
+                    <div className="absolute top-3 sm:top-4 right-3 sm:right-4">
+                      <StatusBadge status={issue.status} className="backdrop-blur-md bg-white/90 shadow-lg text-xs sm:text-sm">
                         {issue.status}
                       </StatusBadge>
                     </div>
-                    <div className="absolute bottom-4 left-4 flex items-center gap-2 text-white">
-                      <div className="p-1 bg-white/20 backdrop-blur-md rounded-lg">
-                        <MapPin className="w-4 h-4" />
+                    <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 flex items-center gap-1.5 sm:gap-2 text-white">
+                      <div className="p-1 bg-white/20 backdrop-blur-md rounded-md sm:rounded-lg">
+                        <MapPin className="w-3 sm:w-4 h-3 sm:h-4" />
                       </div>
-                      <span className="font-medium text-sm">{issue.location}</span>
+                      <span className="font-medium text-xs sm:text-sm truncate max-w-32 sm:max-w-none">{issue.location}</span>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <CardContent className="p-6 space-y-4">
+                  <CardContent className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                     <div>
-                      <h3 className="font-bold text-xl text-slate-800 mb-2 group-hover:text-violet-600 transition-colors">
+                      <h3 className="font-bold text-lg sm:text-xl text-slate-800 mb-2 group-hover:text-violet-600 transition-colors line-clamp-2">
                         {issue.title}
                       </h3>
-                      <p className="text-slate-600 line-clamp-2 leading-relaxed">{issue.description}</p>
+                      <p className="text-slate-600 line-clamp-2 leading-relaxed text-sm sm:text-base">{issue.description}</p>
                     </div>
                     
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between text-sm">
+                    <div className="space-y-2 sm:space-y-3">
+                      <div className="flex items-center justify-between text-xs sm:text-sm">
                         <span className="text-slate-500 font-medium">Progress</span>
                         <span className="font-bold text-slate-700">{issue.progress}%</span>
                       </div>
@@ -307,24 +321,28 @@ export default function BrowseProgress() {
                     </div>
                     
                     <div className="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
-                      <span>By {issue.reporter}</span>
-                      <span>{issue.timeAgo}</span>
+                      <span className="truncate">By {issue.reporter}</span>
+                      <span className="flex-shrink-0 ml-2">{issue.timeAgo}</span>
                     </div>
 
-                    <div className="flex gap-3 pt-2">
+                    <div className="flex gap-2 sm:gap-3 pt-2">
                       <Button
                         size="sm"
                         variant="outline"
-                        className="flex-1 border-2 border-emerald-200 text-emerald-600 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 rounded-xl font-semibold transition-all"
+                        className="flex-1 border-2 border-emerald-200 text-emerald-600 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 rounded-lg sm:rounded-xl font-semibold transition-all text-xs sm:text-sm py-2 sm:py-2.5"
                       >
-                        <CheckCircle className="h-4 w-4 mr-2" /> Verify
+                        <CheckCircle className="h-3 sm:h-4 w-3 sm:w-4 mr-1 sm:mr-2" />
+                        <span className="hidden xs:inline">Verify</span>
+                        <span className="xs:hidden">✓</span>
                       </Button>
                       <Button
                         size="sm"
-                        className="flex-1 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105"
+                        className="flex-1 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold rounded-lg sm:rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 text-xs sm:text-sm py-2 sm:py-2.5"
                         onClick={() => router.push(`/issues/${issue.id}`)}
                       >
-                        <Eye className="h-4 w-4 mr-2" /> Details
+                        <Eye className="h-3 sm:h-4 w-3 sm:w-4 mr-1 sm:mr-2" />
+                        <span className="hidden xs:inline">Details</span>
+                        <span className="xs:hidden">View</span>
                       </Button>
                     </div>
                   </CardContent>

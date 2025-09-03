@@ -19,8 +19,6 @@ import {
   Globe,
   Moon,
   Sun,
-  Menu,
-  X,
   Star,
   TrendingUp,
   Phone,
@@ -30,25 +28,25 @@ import { useRouter } from "next/navigation";
 import GlowingCard from "@/components/civic/GlowingCard";
 import AnimatedCounter from "@/components/civic/AnimatedCounter";
 
-function ThemeToggle({ darkMode, setDarkMode }: { darkMode: boolean; setDarkMode: React.Dispatch<React.SetStateAction<boolean>> }): React.JSX.Element {
+// function ThemeToggle({ darkMode, setDarkMode }: { darkMode: boolean; setDarkMode: React.Dispatch<React.SetStateAction<boolean>> }): React.JSX.Element {
 
 
-  return (
+//   return (
 
-    <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      onClick={() => setDarkMode(!darkMode)}
-      className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-gray-200 dark:border-slate-700 transition-all duration-300"
-    >
-      {darkMode ? (
-        <Sun className="h-5 w-5 text-yellow-500" />
-      ) : (
-        <Moon className="h-5 w-5 text-slate-600" />
-      )}
-    </motion.button>
-  );
-}
+//     <motion.button
+//       whileHover={{ scale: 1.1 }}
+//       whileTap={{ scale: 0.9 }}
+//       onClick={() => setDarkMode(!darkMode)}
+//       className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-gray-200 dark:border-slate-700 transition-all duration-300"
+//     >
+//       {darkMode ? (
+//         <Sun className="h-5 w-5 text-yellow-500" />
+//       ) : (
+//         <Moon className="h-5 w-5 text-slate-600" />
+//       )}
+//     </motion.button>
+//   );
+// }
 
 type OrbColor = "teal" | "purple" | "orange";
 
@@ -121,7 +119,7 @@ export default function Landing() {
   return (
     <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex flex-col relative overflow-hidden transition-colors duration-500`}>
       {/* Theme Toggle */}
-      <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+      {/* <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} /> */}
 
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">

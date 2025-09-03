@@ -185,7 +185,7 @@ export default function ReportIssue() {
                     <Label htmlFor="anonymous" className="font-medium">Report Anonymously</Label>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    Your identity will be kept private. You won't receive updates about this issue.
+                    Your identity will be kept private. You won&apos;t receive updates about this issue.
                   </p>
                 </div>
                 
@@ -199,7 +199,7 @@ export default function ReportIssue() {
                     onChange={(e) => setFormData({...formData, contact: e.target.value})}
                   />
                   <p className="text-xs text-muted-foreground mt-1">
-                    We'll send you updates about this issue
+                    We&apos;ll send you updates about this issue
                   </p>
                 </div>
                 

@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { 
-  ThumbsUp, MessageCircle, MapPin, Share2, Heart, Bookmark, MoreHorizontal, 
+   MessageCircle, MapPin, Share2, Heart, Bookmark, MoreHorizontal, 
   Camera, Users, TrendingUp, Award, Filter, Search, Bell, Moon, Sun,
   ChevronDown, X, Plus, Eye, Clock, CheckCircle, AlertCircle, 
-  Send, Image, Video, Mic, Smile, Tag, Navigation, Star,
-  Settings, User, LogOut, Home, FileText, BarChart3, MessageSquare,
-  Zap, Shield, Globe, Calendar, ArrowUp, ArrowDown, Reply,
-  Edit3, Flag, Share, Download, Upload, RefreshCw, Trash2,
-  ThumbsDown, MoreVertical, ExternalLink, Copy, VolumeX, Volume2
+  Send, Image,  Smile,  Navigation, Star,
+  Settings, User, LogOut , FileText, BarChart3, 
+  Zap, Shield, Globe, Calendar, ArrowUp, Reply,
+  Flag,  RefreshCw ,
+  ThumbsDown,  VolumeX, Volume2
 } from "lucide-react";
+import Header from "@/components/layout/Header";
 
 // Enhanced types
 type NotificationType = 'like' | 'comment' | 'mention' | 'status_update' | 'achievement';
@@ -712,219 +713,7 @@ export default function CommunityFeed() {
         : 'bg-gray-50 text-gray-900'
     }`}>
       {/* Enhanced Header */}
-      <header className={`sticky top-0 z-50 transition-colors duration-300 ${
-        darkMode 
-          ? 'bg-gray-800/95 backdrop-blur-lg border-b border-gray-700' 
-          : 'bg-white/95 backdrop-blur-lg border-b border-gray-200'
-      } shadow-sm`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg bg-gradient-to-r from-teal-500 to-teal-600">
-                  V
-                </div>
-                <span className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  VeriFix
-                </span>
-              </div>
-            </div>
-
-            {/* Search Bar */}
-            <div className="hidden md:flex flex-1 max-w-lg mx-8">
-              <div className="relative w-full">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search posts, users, or tags..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className={`w-full pl-10 pr-4 py-2 rounded-full border transition-colors ${
-                    darkMode 
-                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-teal-500' 
-                      : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-500 focus:border-teal-500'
-                  } focus:outline-none focus:ring-2 focus:ring-teal-500/20`}
-                />
-              </div>
-            </div>
-
-            {/* Navigation & Actions */}
-            <div className="flex items-center space-x-4">
-              {/* Navigation Links */}
-              <nav className="hidden lg:flex space-x-6">
-                <a href="/" className={`transition-colors ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Home</a>
-                <a href="/reportissues" className={`transition-colors ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Report</a>
-                <a href="#" className={`transition-colors ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Progress</a>
-                <a href="/community" className={`font-medium transition-colors ${darkMode ? 'text-teal-400' : 'text-teal-600'}`}>Community</a>
-                <a href="/dashboard" className={`transition-colors ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`}>Dashboard</a>
-              </nav>
-
-              {/* Dark Mode Toggle */}
-              <button
-                onClick={toggleDarkMode}
-                className={`p-2 rounded-full transition-all ${
-                  darkMode 
-                    ? 'bg-gray-700 text-yellow-400 hover:bg-gray-600' 
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </button>
-
-              {/* Sound Toggle */}
-              <button
-                onClick={() => setSoundEnabled(!soundEnabled)}
-                className={`p-2 rounded-full transition-all ${
-                  darkMode 
-                    ? 'bg-gray-700 hover:bg-gray-600' 
-                    : 'bg-gray-100 hover:bg-gray-200'
-                } ${soundEnabled ? 'text-teal-500' : 'text-gray-400'}`}
-              >
-                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
-              </button>
-
-              {/* Notifications */}
-              <div className="relative" ref={notificationRef}>
-                <button
-                  onClick={() => setShowNotifications(!showNotifications)}
-                  className={`p-2 rounded-full transition-all relative ${
-                    darkMode 
-                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white' 
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
-                  }`}
-                >
-                  <Bell className="w-5 h-5" />
-                  {unreadNotifications > 0 && (
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-medium">
-                      {unreadNotifications > 9 ? '9+' : unreadNotifications}
-                    </span>
-                  )}
-                </button>
-
-                {/* Notifications Dropdown */}
-                {showNotifications && (
-                  <div className={`absolute right-0 mt-2 w-80 rounded-xl shadow-xl z-50 ${
-                    darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                  }`}>
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-lg">Notifications</h3>
-                        {notifications.length > 0 && (
-                          <button 
-                            onClick={clearAllNotifications}
-                            className="text-sm text-teal-500 hover:text-teal-600"
-                          >
-                            Clear All
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                    <div className="max-h-80 overflow-y-auto">
-                      {notifications.length === 0 ? (
-                        <div className="p-6 text-center text-gray-500">
-                          <Bell className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                          <p>No notifications yet</p>
-                        </div>
-                      ) : (
-                        notifications.map((notification) => (
-                          <div 
-                            key={notification.id}
-                            onClick={() => markNotificationAsRead(notification.id)}
-                            className={`p-4 border-b border-gray-100 dark:border-gray-700 last:border-b-0 cursor-pointer transition-colors ${
-                              !notification.read 
-                                ? (darkMode ? 'bg-gray-700/50' : 'bg-blue-50') 
-                                : 'hover:bg-gray-50 dark:hover:bg-gray-700/30'
-                            }`}
-                          >
-                            <div className="flex items-start space-x-3">
-                              {notification.avatar && (
-                                <div className="w-8 h-8 rounded-full bg-teal-500 flex items-center justify-center text-white text-sm font-bold">
-                                  {notification.avatar}
-                                </div>
-                              )}
-                              <div className="flex-1">
-                                <p className={`font-medium text-sm ${!notification.read ? 'text-teal-600 dark:text-teal-400' : ''}`}>
-                                  {notification.title}
-                                </p>
-                                <p className={`text-sm mt-1 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                                  {notification.message}
-                                </p>
-                                <p className="text-xs text-gray-500 mt-1">{notification.timeAgo}</p>
-                              </div>
-                              {!notification.read && (
-                                <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
-                              )}
-                            </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* User Menu */}
-              <div className="relative" ref={userMenuRef}>
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold hover:shadow-lg transition-all"
-                >
-                  You
-                </button>
-
-                {/* User Dropdown */}
-                {showUserMenu && (
-                  <div className={`absolute right-0 mt-2 w-64 rounded-xl shadow-xl z-50 ${
-                    darkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
-                  }`}>
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-                      <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center text-white font-bold">
-                          You
-                        </div>
-                        <div>
-                          <p className="font-bold">Your Name</p>
-                          <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Community Member</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="py-2">
-                      <button className={`w-full text-left px-4 py-2 flex items-center space-x-3 ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
-                        <User className="w-4 h-4" />
-                        <span>Profile</span>
-                      </button>
-                      <button className={`w-full text-left px-4 py-2 flex items-center space-x-3 ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
-                        <Settings className="w-4 h-4" />
-                        <span>Settings</span>
-                      </button>
-                      <button className={`w-full text-left px-4 py-2 flex items-center space-x-3 ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
-                        <BarChart3 className="w-4 h-4" />
-                        <span>My Reports</span>
-                      </button>
-                      <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2">
-                        <button className={`w-full text-left px-4 py-2 flex items-center space-x-3 text-red-500 ${darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}`}>
-                          <LogOut className="w-4 h-4" />
-                          <span>Sign Out</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Create Post Button */}
-              <button
-                onClick={() => setShowCreatePost(true)}
-                className="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 text-white font-medium transition-all hover:shadow-lg hover:from-teal-600 hover:to-teal-700 flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span className="hidden sm:inline">Report Issue</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header darkMode={false}/>
 
       {/* Create Post Modal */}
       {showCreatePost && (
@@ -1042,7 +831,7 @@ export default function CommunityFeed() {
       )}
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           
           {/* Left Sidebar - Enhanced Community Stats */}

@@ -9,25 +9,19 @@ import {
   ChevronRight, 
   ChevronLeft,
   Moon, 
-  Sun, 
-  Menu, 
-  X,
+  Sun,
   CheckCircle,
-  AlertTriangle,
   FileText,
   Eye,
-  Bell,
   Shield,
   Zap,
   Droplets,
-  Lightbulb,
   Construction,
   DollarSign,
   Trash2,
   LocateFixed,
   Phone,
   Mail,
-  User,
   Lock,
   Clock,
   Star,
@@ -40,22 +34,22 @@ type ThemeToggleProps = {
   setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ThemeToggle = ({ darkMode, setDarkMode }: ThemeToggleProps) => {
-  return (
-    <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      onClick={() => setDarkMode(!darkMode)}
-      className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-gray-200 dark:border-slate-700 transition-all duration-300"
-    >
-      {darkMode ? (
-        <Sun className="h-5 w-5 text-yellow-500" />
-      ) : (
-        <Moon className="h-5 w-5 text-slate-600" />
-      )}
-    </motion.button>
-  );
-};
+// const ThemeToggle = ({ darkMode, setDarkMode }: ThemeToggleProps) => {
+//   return (
+//     <motion.button
+//       whileHover={{ scale: 1.1 }}
+//       whileTap={{ scale: 0.9 }}
+//       onClick={() => setDarkMode(!darkMode)}
+//       className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-gray-200 dark:border-slate-700 transition-all duration-300"
+//     >
+//       {darkMode ? (
+//         <Sun className="h-5 w-5 text-yellow-500" />
+//       ) : (
+//         <Moon className="h-5 w-5 text-slate-600" />
+//       )}
+//     </motion.button>
+//   );
+// };
 
 type NavigationProps = {
   darkMode: boolean;
@@ -261,7 +255,7 @@ export default function ReportIssue() {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 transition-colors duration-500`}>
-      <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+      {/* <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} /> */}
       <Header darkMode={darkMode} />
 
       <div className="pt-20 pb-8">
