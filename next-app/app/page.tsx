@@ -6,11 +6,15 @@ import { FeatureCard } from "@/components/civic/FeatureCard";
 import { MapPin, Search, Users } from "lucide-react";
 import heroImage from "@/app/assets/hero-city.jpg";
 import { useRouter } from "next/navigation";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Landing() { 
   const router  =useRouter();
   return (
+
     <div className="min-h-screen bg-background">
+      <Header/>
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
@@ -115,6 +119,8 @@ export default function Landing() {
         </div>
       </section>
 
+    <Footer/>
     </div>
+
   );
 }
