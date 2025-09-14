@@ -5,8 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Upload, 
   Eye, 
-  Moon, 
-  Sun, 
   CheckCircle,
   Clock,
   Users,
@@ -21,10 +19,6 @@ import {
 } from "lucide-react";
 import Header from "@/components/layout/Header";
 
-type ThemeToggleProps = {
-  darkMode: boolean;
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
 // const ThemeToggle = ({ darkMode, setDarkMode }: ThemeToggleProps) => (
 //   <motion.button

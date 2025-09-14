@@ -3,13 +3,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { 
    MessageCircle, MapPin, Share2, Heart, Bookmark, MoreHorizontal, 
-  Camera, Users, TrendingUp, Award, Filter, Search, Bell, Moon, Sun,
-  ChevronDown, X, Plus, Eye, Clock, CheckCircle, AlertCircle, 
+  Camera, Users, TrendingUp, Award,  Search,
+  ChevronDown, X,  Eye, Clock, CheckCircle, AlertCircle, 
   Send, Image,  Smile,  Navigation, Star,
-  Settings, User, LogOut , FileText, BarChart3, 
-  Zap, Shield, Globe, Calendar, ArrowUp, Reply,
+  FileText, BarChart3, 
+  Zap, Shield,   ArrowUp, Reply,
   Flag,  RefreshCw ,
-  ThumbsDown,  VolumeX, Volume2
+  ThumbsDown
 } from "lucide-react";
 import Header from "@/components/layout/Header";
 
@@ -173,7 +173,7 @@ const mockPosts: Post[] = [
     priority: "urgent",
     location: "Main St & Oak Ave",
     coordinates: { lat: 40.7128, lng: -74.0060 },
-    images: ["/api/placeholder/600/300", "/api/placeholder/600/300"],
+    images: ["https://images.unsplash.com/photo-1560782202-154b39d57ef2?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1601026909629-bad5e1122bc6?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
     description: "A large pothole has developed on Main Street near the intersection with Oak Avenue. It is causing drivers to swerve and could lead to accidents. Urgent repair is needed. Update: City crew has been dispatched and materials are being prepared.",
     likes: 125,
     dislikes: 3,
@@ -261,7 +261,7 @@ const mockPosts: Post[] = [
     priority: "high",
     location: "Park Ave (near school)",
     coordinates: { lat: 40.7589, lng: -73.9851 },
-    images: ["/api/placeholder/600/300"],
+    images: ["https://images.unsplash.com/photo-1742119193536-7d228ef7f466?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3RyZWV0JTIwbGlnaHQlMjBicm9rZW58ZW58MHx8MHx8fDA%3D"],
     description: "Several streetlights are out along Park Avenue, making it very dark and unsafe for pedestrians at night, especially near the school. This affects the safety of children walking home and evening commuters.",
     likes: 210,
     dislikes: 1,
@@ -350,32 +350,6 @@ const trendingTopics = [
   { tag: "#TrafficSafety", posts: "324", trending: true },
 ];
 
-const topContributors = [
-  { 
-    name: "Alice Johnson", 
-    points: "2.4k", 
-    badge: "Top Reporter",
-    avatar: "AJ",
-    change: "+12%",
-    verified: true
-  },
-  { 
-    name: "David Lee", 
-    points: "1.8k", 
-    badge: "Safety Advocate",
-    avatar: "DL",
-    change: "+8%",
-    verified: false
-  },
-  { 
-    name: "Emily White", 
-    points: "1.5k", 
-    badge: "Eco Warrior",
-    avatar: "EW",
-    change: "+15%",
-    verified: true
-  },
-];
 
 export default function CommunityFeed() {
   // State management
@@ -383,9 +357,8 @@ export default function CommunityFeed() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [darkMode, setDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showNotifications, setShowNotifications] = useState(false);
+ 
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const [sortBy, setSortBy] = useState("recent");
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [newPostContent, setNewPostContent] = useState("");
@@ -419,21 +392,6 @@ export default function CommunityFeed() {
   useEffect(() => {
     const savedDarkMode = localStorage.getItem('darkMode') === 'true';
     setDarkMode(savedDarkMode);
-  }, []);
-
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
-        setShowNotifications(false);
-      }
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
-        setShowUserMenu(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // Enhanced interaction handlers
@@ -697,12 +655,8 @@ export default function CommunityFeed() {
     return colors[priority as keyof typeof colors] || "";
   };
 
-  const filters = ["All", "Infrastructure", "Public Safety", "Environment", "Transportation", "Community"];
-  const sortOptions = [
-    { value: "recent", label: "Most Recent" },
-    { value: "popular", label: "Most Popular" },
-    { value: "comments", label: "Most Discussed" }
-  ];
+  const filters = ["All", "Infrastructure", "Public Safety", "Environment", "Community"];
+
 
   const unreadNotifications = notifications.filter(n => !n.read).length;
 
@@ -906,85 +860,8 @@ export default function CommunityFeed() {
                 </div>
               </div>
 
-              {/* Top Contributors */}
-              <div className={`rounded-xl p-6 shadow-sm border transition-colors ${
-                darkMode 
-                  ? 'bg-gray-800 border-gray-700' 
-                  : 'bg-white border-gray-200'
-              }`}>
-                <h3 className="font-bold text-lg mb-4 flex items-center">
-                  <Award className="w-5 h-5 mr-2 text-yellow-500" />
-                  Top Contributors
-                </h3>
-                <div className="space-y-3">
-                  {topContributors.map((contributor, index) => (
-                    <div key={index} className="flex items-center space-x-3 group cursor-pointer">
-                      <div className="relative">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center text-white text-sm font-bold group-hover:shadow-lg transition-all">
-                          {contributor.avatar}
-                        </div>
-                        {index < 3 && (
-                          <div className={`absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                            index === 0 ? 'bg-yellow-500 text-white' : 
-                            index === 1 ? 'bg-gray-400 text-white' : 
-                            'bg-amber-600 text-white'
-                          }`}>
-                            {index + 1}
-                          </div>
-                        )}
-                        {contributor.verified && (
-                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-teal-500 rounded-full flex items-center justify-center">
-                            <span className="text-white text-xs">✓</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-2">
-                          <p className={`font-medium text-sm ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                            {contributor.name}
-                          </p>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
-                            contributor.change.startsWith('+') 
-                              ? 'bg-green-100 text-green-700 dark:bg-green-900/20 dark:text-green-400'
-                              : 'bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400'
-                          }`}>
-                            {contributor.change}
-                          </span>
-                        </div>
-                        <p className="text-xs text-teal-500">{contributor.badge}</p>
-                      </div>
-                      <span className="text-sm font-bold text-orange-500">{contributor.points}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quick Stats */}
-              <div className={`rounded-xl p-6 shadow-sm border transition-colors ${
-                darkMode 
-                  ? 'bg-gray-800 border-gray-700' 
-                  : 'bg-white border-gray-200'
-              }`}>
-                <h3 className="font-bold text-lg mb-4">Quick Stats</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-teal-500">98%</div>
-                    <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Satisfaction</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-500">24h</div>
-                    <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Avg Response</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-green-500">1.8k</div>
-                    <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>This Month</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-500">95%</div>
-                    <div className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Resolved</div>
-                  </div>
-                </div>
-              </div>
+             
+          
             </div>
           </div>
 
@@ -1035,37 +912,6 @@ export default function CommunityFeed() {
                   ))}
                 </div>
 
-                {/* Sort & Advanced Filters */}
-                <div className="flex space-x-2">
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className={`px-4 py-2 rounded-lg border text-sm ${
-                      darkMode 
-                        ? 'bg-gray-800 border-gray-700 text-white' 
-                        : 'bg-white border-gray-200 text-gray-700'
-                    } focus:outline-none focus:ring-2 focus:ring-teal-500`}
-                  >
-                    {sortOptions.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  
-                  <button
-                    onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-                    className={`p-2 rounded-lg border transition-all ${
-                      showAdvancedFilters
-                        ? 'bg-teal-500 text-white border-teal-500'
-                        : darkMode
-                          ? 'bg-gray-800 border-gray-700 text-gray-300 hover:text-white'
-                          : 'bg-white border-gray-200 text-gray-700 hover:text-gray-900'
-                    }`}
-                  >
-                    <Filter className="w-4 h-4" />
-                  </button>
-                </div>
               </div>
 
               {/* Advanced Filters */}
@@ -1603,29 +1449,7 @@ export default function CommunityFeed() {
                       </div>
                     </div>
 
-                    {/* Action Buttons - Donate/Volunteer */}
-                    {(post.donations || post.volunteers) && (
-                      <div className="px-6 pb-4">
-                        <div className="flex gap-3">
-                          {post.donations && (
-                            <button className="flex-1 py-3 px-4 rounded-lg text-white font-medium transition-all hover:shadow-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700">
-                              <Heart className="w-4 h-4 inline mr-2" />
-                              Donate Now
-                            </button>
-                          )}
-                          {post.volunteers && (
-                            <button className={`flex-1 py-3 px-4 rounded-lg font-medium border-2 transition-all hover:shadow-md ${
-                              darkMode
-                                ? 'border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white'
-                                : 'border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white'
-                            }`}>
-                              <Users className="w-4 h-4 inline mr-2" />
-                              Volunteer
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    )}
+                  
 
                     {/* Enhanced Comments Section */}
                     {showComments[post.id] && (
@@ -1898,24 +1722,6 @@ export default function CommunityFeed() {
                 </div>
               </div>
 
-              {/* Weather Impact Alert */}
-              <div className={`rounded-xl p-6 shadow-sm border transition-colors ${
-                darkMode 
-                  ? 'bg-amber-900/20 border-amber-800/30' 
-                  : 'bg-amber-50 border-amber-200'
-              }`}>
-                <h3 className="font-bold text-lg mb-3 flex items-center text-amber-600 dark:text-amber-400">
-                  <Shield className="w-5 h-5 mr-2" />
-                  Weather Alert
-                </h3>
-                <p className={`text-sm mb-3 ${darkMode ? 'text-amber-300' : 'text-amber-700'}`}>
-                  Heavy rain expected this weekend. Road repairs may be delayed.
-                </p>
-                <div className={`text-xs ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}>
-                  <Globe className="w-3 h-3 inline mr-1" />
-                  Updated 30 minutes ago
-                </div>
-              </div>
 
               {/* My Contributions */}
               <div className={`rounded-xl p-6 shadow-sm border transition-colors ${
@@ -1995,43 +1801,7 @@ export default function CommunityFeed() {
                 </div>
               </div>
 
-              {/* Upcoming Events */}
-              <div className={`rounded-xl p-6 shadow-sm border transition-colors ${
-                darkMode 
-                  ? 'bg-gray-800 border-gray-700' 
-                  : 'bg-white border-gray-200'
-              }`}>
-                <h3 className="font-bold text-lg mb-4 flex items-center">
-                  <Calendar className="w-5 h-5 mr-2 text-indigo-500" />
-                  Upcoming Events
-                </h3>
-                <div className="space-y-3">
-                  <div className={`p-3 rounded-lg border ${
-                    darkMode ? 'bg-gray-700/50 border-gray-600' : 'bg-blue-50 border-blue-200'
-                  }`}>
-                    <h4 className="font-medium text-sm mb-1">Community Cleanup</h4>
-                    <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}>
-                      Join us for a city-wide cleanup initiative
-                    </p>
-                    <div className={`text-xs flex items-center ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                      <Calendar className="w-3 h-3 mr-1" />
-                      Saturday, 2:00 PM
-                    </div>
-                  </div>
-                  <div className={`p-3 rounded-lg border ${
-                    darkMode ? 'bg-gray-700/50 border-gray-600' : 'bg-green-50 border-green-200'
-                  }`}>
-                    <h4 className="font-medium text-sm mb-1">Town Hall Meeting</h4>
-                    <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}>
-                      Discuss infrastructure improvements
-                    </p>
-                    <div className={`text-xs flex items-center ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-                      <Calendar className="w-3 h-3 mr-1" />
-                      Monday, 7:00 PM
-                    </div>
-                  </div>
-                </div>
-              </div>
+           
             </div>
           </div>
         </div>

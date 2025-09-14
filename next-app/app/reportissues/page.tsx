@@ -8,8 +8,6 @@ import {
   Upload, 
   ChevronRight, 
   ChevronLeft,
-  Moon, 
-  Sun,
   CheckCircle,
   FileText,
   Eye,
@@ -29,31 +27,7 @@ import {
 } from "lucide-react";
 import Header from "@/components/layout/Header";
 
-type ThemeToggleProps = {
-  darkMode: boolean;
-  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-};
 
-// const ThemeToggle = ({ darkMode, setDarkMode }: ThemeToggleProps) => {
-//   return (
-//     <motion.button
-//       whileHover={{ scale: 1.1 }}
-//       whileTap={{ scale: 0.9 }}
-//       onClick={() => setDarkMode(!darkMode)}
-//       className="fixed top-4 right-4 z-50 p-3 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-gray-200 dark:border-slate-700 transition-all duration-300"
-//     >
-//       {darkMode ? (
-//         <Sun className="h-5 w-5 text-yellow-500" />
-//       ) : (
-//         <Moon className="h-5 w-5 text-slate-600" />
-//       )}
-//     </motion.button>
-//   );
-// };
-
-type NavigationProps = {
-  darkMode: boolean;
-};
 
 
 type ProgressBarProps = {

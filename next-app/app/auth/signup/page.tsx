@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import GlowingCard from "@/components/civic/GlowingCard";
 import FloatingOrb from "@/components/civic/FlowtingOrb";
+import { useRouter } from "next/navigation";
 
 
 interface FormState {
@@ -40,7 +41,7 @@ export default function SignupPage() {
     confirmPassword: "",
     otpMethod: "email",
   });
-
+  const router = useRouter();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [step, setStep] = useState("signup");
   const [showPassword, setShowPassword] = useState(false);
@@ -164,6 +165,7 @@ export default function SignupPage() {
       console.log("OTP verified:", data);
       setIsLoading(false);
       alert("✅ User signed up successfully!");
+      router.push("/auth/login");
     } catch (err) {
       console.error(err);
       alert("Something went wrong");
@@ -183,7 +185,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-teal-50 flex items-center justify-center p-4 pt-24 pb-8 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <FloatingOrb delay={0} color="teal" className="top-1/4 left-10" />
@@ -743,7 +745,10 @@ export default function SignupPage() {
               >
                 <Shield className="w-4 h-4 text-teal-600" />
               </motion.div>
-              Your data is encrypted and secure
+              You already have an account?{" "}
+              <a href="/auth/login" className="text-teal-600 font-semibold hover:underline">
+                Log in
+              </a>
             </div>
 
             {/* Additional trust elements */}

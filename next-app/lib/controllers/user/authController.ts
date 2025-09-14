@@ -10,4 +10,9 @@ export class AuthController {
     const body = await req.json();
     return AuthService.verifyOTP(body);
   }
+
+  static async login(req: Request) {
+    const body = await req.json();
+    return AuthService.login(body);
+  }
 }

@@ -14,6 +14,11 @@ class AuthError extends Error {
   }
 }
 
+interface LoginDTO {
+  email: string;
+  password: string;
+}
+
 interface SignupDTO {
   name: string;
   email: string;
@@ -29,14 +34,46 @@ interface VerifyOTPDTO {
 }
 
 export class AuthService {
+
+
+  static async login(data: LoginDTO ) {
+    try {
+      await dbConnect();
+
+      const user = await User.findOne({ email: data.email }).lean<IUser>();
+      if (!user) throw new AuthError("User not found", 404);
+      if (!user.isVerified) throw new AuthError("User not verified", 403);
+
+      const passwordMatch = await bcrypt.compare(data.password, user.passwordHash);
+      if (!passwordMatch) throw new AuthError("Invalid credentials", 401);
+
+      // Generate JWT or session here (omitted for brevity)
+
+      return { message: "Login successful", userId: user._id };
+    } catch (error: unknown) {
+      if (!(error instanceof Error)) {
+        console.error("Non-error thrown:", error);
+        throw new AuthError("An unknown error occurred", 500);
+      }
+      if (error instanceof AuthError) {
+        throw error;
+      }
+
+      console.error("Unexpected login error:", error);
+      throw new AuthError("Unexpected error during login", 500);
+    }
+  }
+
+
+
   // Signup user
   static async signup(data: SignupDTO) {
     try {
       await dbConnect();
 
       const existing = await User.findOne({
-  $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }],
-}).lean<IUser>();
+        $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }],
+      }).lean<IUser>();
       if (existing) throw new AuthError("User with this email or phone number already exists", 409);
 
       const passwordHash = await bcrypt.hash(data.password, 10);
@@ -71,11 +108,11 @@ export class AuthService {
 
       // Detect duplicate key errors
       if (error instanceof MongoServerError && error.code === 11000) {
-    throw new AuthError(
-      "Duplicate entry detected. Email or phone already exists.",
-      409
-    );
-  }
+        throw new AuthError(
+          "Duplicate entry detected. Email or phone already exists.",
+          409
+        );
+      }
 
       // Custom errors
       if (error instanceof AuthError) {
@@ -107,7 +144,7 @@ export class AuthService {
       await user.save();
 
       return { message: "OTP verified successfully" };
-    } catch (error: unknown) { 
+    } catch (error: unknown) {
       if (!(error instanceof Error)) {
         console.error("Non-error thrown:", error);
         throw new AuthError("An unknown error occurred", 500);
